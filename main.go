@@ -20,9 +20,9 @@ var token string
 
 // GitHub repository structure to unmarshal response
 type Repository struct {
-	Name          string `json:"name"`
-	Description   string `json:"description"`
-	Owner         struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Owner       struct {
 		Login string `json:"login"`
 	} `json:"owner"`
 	Language      string `json:"language"`
@@ -30,10 +30,10 @@ type Repository struct {
 	License       struct {
 		Name string `json:"name"`
 	} `json:"license"`
-	Size   int `json:"size"`
-	Stars  int `json:"stargazers_count"`
-	Forks  int `json:"forks_count"`
-	Url	string `json:"html_url"`
+	Size  int    `json:"size"`
+	Stars int    `json:"stargazers_count"`
+	Forks int    `json:"forks_count"`
+	Url   string `json:"html_url"`
 }
 
 // Constant for repeated literal
@@ -41,12 +41,11 @@ const repoNameFormat = "Repository Name: %s\n"
 const descriptionFormat = "Description: %s\n"
 const urlFormat = "URL: %s\n"
 
-
 // GitHub Issue structure
 type Issue struct {
-	Title string `json:"title"`
-	State string `json:"state"`
-	URL   string `json:"html_url"`
+	Title  string `json:"title"`
+	State  string `json:"state"`
+	URL    string `json:"html_url"`
 	Labels []struct {
 		Name string `json:"name"`
 	} `json:"labels"`
@@ -63,7 +62,6 @@ type Notification struct {
 	UpdatedAt string `json:"updated_at"`
 }
 
-
 func main() {
 	// Define flags for commands and options
 	saveTokenFlag := flag.Bool("save-token", false, "Save GitHub Token")
@@ -72,7 +70,6 @@ func main() {
 	queryIssuesFlag := flag.String("query-issues", "", "Query issues for a specific repository")
 	notifyFlag := flag.Bool("notify", false, "Check notifications for the user")
 	allRepoFlag := flag.Bool("all-repo", false, "Fetch all repositories for the authenticated user")
-
 
 	// Set usage for the flags in color
 	flag.Usage = func() {
@@ -99,7 +96,7 @@ func main() {
 	if *allRepoFlag {
 		fetchAllRepositories()
 		return
-	}	
+	}
 
 	// Handle searching for a repository
 	if *searchRepoFlag != "" {
@@ -218,7 +215,7 @@ func showRepository(repoName string) {
 
 	var repo Repository
 	if err := json.NewDecoder(resp.Body).Decode(&repo); err != nil {
-	colors.BLUE.Printf(repoNameFormat, repo.Name)
+		colors.BLUE.Printf(repoNameFormat, repo.Name)
 	}
 
 	colors.BLUE.Printf(repoNameFormat, repo.Name)
@@ -232,7 +229,6 @@ func showRepository(repoName string) {
 	colors.CYAN.Printf("Forks: %d\n", repo.Forks)
 	colors.GREEN.Printf(urlFormat, repo.Url)
 }
-
 
 // Query issues in a specific repository
 func queryIssues(repoName string) {
